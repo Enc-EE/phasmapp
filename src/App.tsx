@@ -1,9 +1,9 @@
 import React from 'react'
-// import logo from './logo.svg'
 import './App.css'
 import { Card } from 'primereact/card'
 import { DATA, EvidenceType } from './data'
 import EvidenceSelection from './EvidenceSelection/EvidenceSelection'
+import { Toolbar } from 'primereact/toolbar';
 
 interface StateProps {
   selectedEvidences: EvidenceType[]
@@ -44,28 +44,20 @@ export default class App extends React.Component<{}, StateProps> {
   render() {
     return (
       <div>
+        <div className="p-d-flex p-jc-center top-bar"><h3>Phasmorphobia Helper</h3></div>
         <EvidenceSelection evidences={DATA.evidences} selectionChanged={this.setEvidenceSelection} />
-        {this.getGhosts().map(x => (
-          <Card key={x.name} title={x.name} style={{ width: '25rem', margin: '1em' }}>
-            {x.evidences.map(y => DATA.evidences.find(z => z.type === y)!.name).reduce((a, b) => a + ", " + b)}
-          </Card>))}
+        <div className="content">
+          <div className="p-grid ghost-grid">
+            {this.getGhosts().map(x => (
+              <div className="p-col-12 p-md-6 p-xl-3">
+                <Card className="ghost-card" key={x.name} title={x.name}>
+                  {x.evidences.map(y => DATA.evidences.find(z => z.type === y)!.name).reduce((a, b) => a + ", " + b)}
+                </Card>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-      // <div className="App">
-      //   <header className="App-header">
-      //     <img src={logo} className="App-logo" alt="logo" />
-      //     <p>
-      //       Edit <code>src/App.tsx</code> and save to reload.
-      // </p>
-      //     <a
-      //       className="App-link"
-      //       href="https://reactjs.org"
-      //       target="_blank"
-      //       rel="noopener noreferrer"
-      //     >
-      //       Learn React
-      // </a>
-      //   </header>
-      // </div>
     )
   }
 }

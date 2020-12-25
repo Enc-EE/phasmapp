@@ -1,6 +1,7 @@
 import React from "react"
 import { DATA, Evidence, EvidenceType } from "../data"
 import { Checkbox } from "primereact/checkbox";
+import './EvidenceSelection.css'
 
 interface StateProps {
     evidences: Evidence[]
@@ -64,7 +65,7 @@ export default class EvidenceSelection extends React.Component<Props, OwnProps> 
 
     render() {
         return (
-            <div>
+            <div className="p-d-flex p-flex-column p-flex-lg-row evidence-selection">
                 {this.props.evidences.map(evidence => (
                     <div key={evidence.name} style={{margin: "0.5em"}}>
                         <Checkbox inputId={evidence.type.toString()} value={evidence} disabled={this.getGhosts().filter(x => x.evidences.indexOf(evidence.type) >= 0).length === 0} onChange={() => this.toggleSelect(evidence)} checked={this.isSelected(evidence.type)}></Checkbox>
