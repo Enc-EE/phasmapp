@@ -9,9 +9,12 @@ import EvidenceSelection from './EvidenceSelection/EvidenceSelection'
 import { faCompressAlt } from "@fortawesome/free-solid-svg-icons";
 import { faExpandAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { store } from './state/store'
+import { setCanInstall } from './state/actions'
 
 export interface StateProps {
   hasUpdate: boolean
+  canInstall: boolean
 }
 
 export interface DispatchProps {
@@ -25,6 +28,16 @@ interface State {
   needsHttpsRedirect: boolean
   shrinkEvidenceSelection: boolean
 }
+
+let deferredPrompt: any | undefined
+
+window.addEventListener('beforeinstallprompt', (e: any) => {
+  // Prevent Chrome 67 and earlier from automatically showing the prompt
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+  store.dispatch(setCanInstall(true))
+});
 
 export default class App extends React.Component<Props, State> {
   toast: Toast | null | undefined
@@ -55,14 +68,36 @@ export default class App extends React.Component<Props, State> {
         detail: (
           <div className="p-flex p-flex-column" style={{ flex: '1' }}>
             <div className="p-text-center">
-              <h4>Restart the app to update?</h4>
+              <h4>App neustarten zum aktualisieren?</h4>
             </div>
             <div className="p-grid p-fluid">
               <div className="p-col-6">
-                <Button type="button" label="Reload" onClick={() => { window.location.reload() }} className="p-button-success" />
+                <Button type="button" label="Neustarten" onClick={() => { window.location.reload() }} className="p-button-success" />
               </div>
               <div className="p-col-6">
-                <Button type="button" label="Remind me later" onClick={() => { this.toast?.clear() }} className="p-button-secondary" />
+                <Button type="button" label="Später Erinnern" onClick={() => { this.toast?.clear() }} className="p-button-secondary" />
+              </div>
+            </div>
+          </div>
+        )
+      })
+    }
+    if (!prevProps.canInstall && this.props.canInstall && this.toast) {
+      this.toast.show({
+        severity: 'info',
+        sticky: true,
+        detail: (
+          <div className="p-flex p-flex-column" style={{ flex: '1' }}>
+            <div className="p-text-center">
+              <h4>App installieren?</h4>
+              <p>Für ein besseres Benutzererlebnis ist es möglich diese App zu installieren.</p>
+            </div>
+            <div className="p-grid p-fluid">
+              <div className="p-col-6">
+                <Button type="button" label="Installieren" onClick={() => { deferredPrompt?.prompt() }} className="p-button-success" />
+              </div>
+              <div className="p-col-6">
+                <Button type="button" label="Später Erinnern" onClick={() => { this.toast?.clear() }} className="p-button-secondary" />
               </div>
             </div>
           </div>
@@ -119,7 +154,7 @@ export default class App extends React.Component<Props, State> {
               <img className="ghostly" src={ghostly} alt="logo"></img>
               <h3>Phasmorphobia Helper</h3>
               <div className="fill"></div>
-              <div>V0.4.0</div>
+              <div>V0.5.0</div>
             </div>
             <div className="page p-d-flex p-flex-column p-flex-md-row">
               <div className={"evidence-selection" + (this.state.shrinkEvidenceSelection ? " evidence-selection-small" : "")}>

@@ -10,18 +10,17 @@ import 'primereact/resources/themes/arya-orange/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-import { appReducer } from './state/reducer';
-import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { AppConnected } from './App.connected';
-import { setHasUpdate } from './state/actions';
-
-const store = configureStore({
-  reducer: appReducer
-})
+import { setCanInstall, setHasUpdate } from './state/actions';
+import { store } from './state/store';
 
 // setTimeout(() => {
 //   store.dispatch(setHasUpdate(true))
+// }, 3000);
+
+// setTimeout(() => {
+//   store.dispatch(setCanInstall(true))
 // }, 3000);
 
 ReactDOM.render(
