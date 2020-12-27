@@ -27,7 +27,6 @@ interface State {
   needsHttpsRedirect: boolean
   shrinkEvidenceSelection: boolean
   showCanInstall: boolean
-  showPwaInstalled: boolean
   showHasUpdate: boolean
 }
 
@@ -50,7 +49,6 @@ export default class App extends React.Component<Props, State> {
       shrinkEvidenceSelection: false,
       showCanInstall: false,
       showHasUpdate: false,
-      showPwaInstalled: false,
     }
   }
 
@@ -67,7 +65,10 @@ export default class App extends React.Component<Props, State> {
       Globals.beforeinstallprompt.userChoice.then((choiceResult: any) => {
         if (choiceResult.outcome === 'accepted') {
           console.log('User accepted the A2HS prompt')
-
+          this.setState({
+            ...this.state,
+            showCanInstall: false,
+          })
         } else {
           console.log('User dismissed the A2HS prompt')
         }
@@ -178,15 +179,6 @@ export default class App extends React.Component<Props, State> {
         )} onHide={() => this.setState({ ...this.state, showCanInstall: false })}>
           <div className="confirmation-content">
             <span>Für ein besseres Benutzererlebnis ist es möglich diese App zu installieren.</span>
-          </div>
-        </Dialog>
-        <Dialog header="App installiert" visible={this.state.showPwaInstalled} modal style={{ width: '350px' }} footer={(
-          <div>
-            <Button label="Schließen" onClick={() => window.close()} />
-          </div>
-        )} onHide={() => this.setState({ ...this.state, showPwaInstalled: false })}>
-          <div className="confirmation-content">
-            <span>Die App wurde installiert. Schließe nun diese Seite und öffne die App.</span>
           </div>
         </Dialog>
         <Dialog header="App aktualisieren?" visible={this.state.showHasUpdate} modal style={{ width: '350px' }} footer={(
