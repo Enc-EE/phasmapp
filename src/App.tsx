@@ -80,6 +80,8 @@ export default class App extends React.Component<{}, StateProps> {
             <div className="p-d-flex p-ai-center top-bar">
               <img className="ghostly" src={ghostly} alt="logo"></img>
               <h3>Phasmorphobia Helper</h3>
+              <div className="fill"></div>
+              <div>V0.3.0</div>
             </div>
             <div className="page p-d-flex p-flex-column p-flex-md-row">
               <div className="evidence-selection">
