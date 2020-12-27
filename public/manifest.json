@@ -1,6 +1,7 @@
 {
   "short_name": "Phasmorphelper",
   "name": "Phasmorphobia Helper",
+  "description": "Phasmorphobia Helper App",
   "icons": [
     {
       "src": "favicon.ico",
@@ -21,5 +22,9 @@
   "start_url": ".",
   "display": "fullscreen",
   "theme_color": "#ffffff",
-  "background_color": "#000000"
+  "background_color": "#000000",
+  "categories": [
+    "tools",
+    "game"
+  ]
 }

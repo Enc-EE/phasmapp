@@ -2,6 +2,7 @@ import React from 'react'
 import './App.css'
 import ghostly from './ghostly.png'
 import { Card } from 'primereact/card'
+import { Toast } from 'primereact/toast'
 import { Button } from 'primereact/button'
 import { DATA, EvidenceType } from './data'
 import EvidenceSelection from './EvidenceSelection/EvidenceSelection'
@@ -9,14 +10,25 @@ import { faCompressAlt } from "@fortawesome/free-solid-svg-icons";
 import { faExpandAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-interface StateProps {
+export interface StateProps {
+  hasUpdate: boolean
+}
+
+export interface DispatchProps {
+
+}
+
+type Props = StateProps & DispatchProps
+
+interface State {
   selectedEvidences: EvidenceType[]
   needsHttpsRedirect: boolean
   shrinkEvidenceSelection: boolean
 }
 
-export default class App extends React.Component<{}, StateProps> {
-  constructor(props: {}) {
+export default class App extends React.Component<Props, State> {
+  toast: Toast | null | undefined
+  constructor(props: Props) {
     super(props)
 
     const needsHttpsRedirect = typeof window !== 'undefined'
@@ -32,6 +44,30 @@ export default class App extends React.Component<{}, StateProps> {
       selectedEvidences: [],
       needsHttpsRedirect: needsHttpsRedirect,
       shrinkEvidenceSelection: false,
+    }
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (!prevProps.hasUpdate && this.props.hasUpdate && this.toast) {
+      this.toast.show({
+        severity: 'info',
+        sticky: true,
+        detail: (
+          <div className="p-flex p-flex-column" style={{ flex: '1' }}>
+            <div className="p-text-center">
+              <h4>Restart the app to update?</h4>
+            </div>
+            <div className="p-grid p-fluid">
+              <div className="p-col-6">
+                <Button type="button" label="Reload" onClick={() => { window.location.reload() }} className="p-button-success" />
+              </div>
+              <div className="p-col-6">
+                <Button type="button" label="Remind me later" onClick={() => { this.toast?.clear() }} className="p-button-secondary" />
+              </div>
+            </div>
+          </div>
+        )
+      })
     }
   }
 
@@ -83,7 +119,7 @@ export default class App extends React.Component<{}, StateProps> {
               <img className="ghostly" src={ghostly} alt="logo"></img>
               <h3>Phasmorphobia Helper</h3>
               <div className="fill"></div>
-              <div>V0.3.0</div>
+              <div>V0.4.0</div>
             </div>
             <div className="page p-d-flex p-flex-column p-flex-md-row">
               <div className={"evidence-selection" + (this.state.shrinkEvidenceSelection ? " evidence-selection-small" : "")}>
@@ -113,6 +149,7 @@ export default class App extends React.Component<{}, StateProps> {
             </div>
           </React.Fragment>
         }
+        <Toast ref={(e) => this.toast = e} position="bottom-center" />
       </React.Fragment>
     )
   }
