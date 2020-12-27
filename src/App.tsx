@@ -1,7 +1,6 @@
 import React from 'react'
 import './App.css'
 import ghostly from './ghostly.png'
-import { Card } from 'primereact/card'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { DATA, EvidenceType } from './data'
@@ -13,6 +12,7 @@ import { faSync } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import packageJson from '../package.json';
 import { Globals } from './globals'
+import GhostCard from './GhostCard/GhostCard'
 
 export interface StateProps {
   hasUpdate: boolean
@@ -163,9 +163,7 @@ export default class App extends React.Component<Props, State> {
                   <div className="p-grid ghost-grid">
                     {this.getGhosts().map(x => (
                       <div className="p-col-12 p-lg-6 p-xl-4" key={x.name} >
-                        <Card className="ghost-card" title={x.name}>
-                          {x.evidences.map(y => DATA.evidences.find(z => z.type === y)!.name).reduce((a, b) => a + ", " + b)}
-                        </Card>
+                        <GhostCard ghost={x} />
                       </div>
                     ))}
                   </div>
