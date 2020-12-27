@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 interface StateProps {
   selectedEvidences: EvidenceType[]
   needsHttpsRedirect: boolean
+  shrinkEvidenceSelection: boolean
 }
 
 export default class App extends React.Component<{}, StateProps> {
@@ -30,6 +31,7 @@ export default class App extends React.Component<{}, StateProps> {
     this.state = {
       selectedEvidences: [],
       needsHttpsRedirect: needsHttpsRedirect,
+      shrinkEvidenceSelection: false,
     }
   }
 
@@ -84,12 +86,16 @@ export default class App extends React.Component<{}, StateProps> {
               <div>V0.3.0</div>
             </div>
             <div className="page p-d-flex p-flex-column p-flex-md-row">
-              <div className="evidence-selection">
+              <div className={"evidence-selection" + (this.state.shrinkEvidenceSelection ? " evidence-selection-small" : "")}>
+                <div className="p-d-block p-d-md-none evidence-layouting-small">
+                  {this.state.shrinkEvidenceSelection
+                    ?
+                    <Button className="p-button-text" onClick={() => this.setState({ ...this.state, shrinkEvidenceSelection: false })}><FontAwesomeIcon icon={faExpandAlt} /></Button>
+                    :
+                    <Button className="p-button-text" onClick={() => this.setState({ ...this.state, shrinkEvidenceSelection: true })}><FontAwesomeIcon icon={faCompressAlt} /></Button>
+                  }
+                </div>
                 <EvidenceSelection evidences={DATA.evidences} selectionChanged={this.setEvidenceSelection} />
-                {/* <div className="p-d-block p-d-md-none evidence-layouting-small">
-                  <Button><FontAwesomeIcon icon={faCompressAlt} /></Button>
-                  <Button><FontAwesomeIcon icon={faExpandAlt} /></Button>
-                </div> */}
               </div>
               <div className="scroller">
                 <div className="content">

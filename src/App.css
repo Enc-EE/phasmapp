@@ -13,7 +13,13 @@
 }
 
 .evidence-selection-small {
-    height: var(--evidences-height);
+    height: var(--evidences-height-small);
+    overflow: auto;
+}
+
+.evidence-layouting-small {
+    position: fixed;
+    right: 0;
 }
 
 .fill {
