@@ -2,7 +2,7 @@ import React from 'react'
 import './App.css'
 import ghostly from './ghostly.png'
 import { Card } from 'primereact/card'
-import { Toast } from 'primereact/toast'
+import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { DATA, EvidenceType } from './data'
 import EvidenceSelection from './EvidenceSelection/EvidenceSelection'
@@ -18,7 +18,6 @@ export interface StateProps {
 }
 
 export interface DispatchProps {
-
 }
 
 type Props = StateProps & DispatchProps
@@ -27,10 +26,12 @@ interface State {
   selectedEvidences: EvidenceType[]
   needsHttpsRedirect: boolean
   shrinkEvidenceSelection: boolean
+  showCanInstall: boolean
+  showPwaInstalled: boolean
+  showHasUpdate: boolean
 }
 
 export default class App extends React.Component<Props, State> {
-  toast: Toast | null | undefined
   constructor(props: Props) {
     super(props)
 
@@ -47,6 +48,9 @@ export default class App extends React.Component<Props, State> {
       selectedEvidences: [],
       needsHttpsRedirect: needsHttpsRedirect,
       shrinkEvidenceSelection: false,
+      showCanInstall: false,
+      showHasUpdate: false,
+      showPwaInstalled: false,
     }
   }
 
@@ -58,64 +62,31 @@ export default class App extends React.Component<Props, State> {
   }
 
   private installApp = () => {
-    Globals.beforeinstallprompt?.prompt()
-    Globals.beforeinstallprompt.userChoice.then((choiceResult: any) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the A2HS prompt')
-      } else {
-        console.log('User dismissed the A2HS prompt')
-      }
-      this.toast?.clear()
-      window.addEventListener("beforeunload", () => {
-        window.close()
-      })
-      window.location.href = window.location.href
-      Globals.beforeinstallprompt = undefined
-    });
+    if (Globals.beforeinstallprompt) {
+      Globals.beforeinstallprompt.prompt()
+      Globals.beforeinstallprompt.userChoice.then((choiceResult: any) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the A2HS prompt')
+
+        } else {
+          console.log('User dismissed the A2HS prompt')
+        }
+        Globals.beforeinstallprompt = undefined
+      });
+    }
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (!prevProps.hasUpdate && this.props.hasUpdate && this.toast) {
-      this.toast.show({
-        severity: 'info',
-        sticky: true,
-        detail: (
-          <div className="p-flex p-flex-column" style={{ flex: '1' }}>
-            <div className="p-text-center">
-              <h4>App neustarten zum aktualisieren?</h4>
-            </div>
-            <div className="p-grid p-fluid">
-              <div className="p-col-6">
-                <Button type="button" label="Neustarten" onClick={this.reloadUpdate} className="p-button-success" />
-              </div>
-              <div className="p-col-6">
-                <Button type="button" label="Später Erinnern" onClick={() => { this.toast?.clear() }} className="p-button-secondary" />
-              </div>
-            </div>
-          </div>
-        )
+    if (!prevProps.hasUpdate && this.props.hasUpdate) {
+      this.setState({
+        ...this.state,
+        showHasUpdate: true,
       })
     }
-    if (!prevProps.canInstall && this.props.canInstall && this.toast) {
-      this.toast.show({
-        severity: 'info',
-        sticky: true,
-        detail: (
-          <div className="p-flex p-flex-column" style={{ flex: '1' }}>
-            <div className="p-text-center">
-              <h4>App installieren?</h4>
-              <p>Für ein besseres Benutzererlebnis ist es möglich diese App zu installieren.</p>
-            </div>
-            <div className="p-grid p-fluid">
-              <div className="p-col-6">
-                <Button type="button" label="Installieren" onClick={this.installApp} className="p-button-success" />
-              </div>
-              <div className="p-col-6">
-                <Button type="button" label="Später Erinnern" onClick={() => { this.toast?.clear() }} className="p-button-secondary" />
-              </div>
-            </div>
-          </div>
-        )
+    if (!prevProps.canInstall && this.props.canInstall) {
+      this.setState({
+        ...this.state,
+        showCanInstall: true,
       })
     }
   }
@@ -168,7 +139,7 @@ export default class App extends React.Component<Props, State> {
               <img className="ghostly" src={ghostly} alt="logo"></img>
               <h3>Phasmorphobia Helper</h3>
               <div className="fill"></div>
-              <div>{packageJson.version}</div>
+              <div>V{packageJson.version}</div>
             </div>
             <div className="page p-d-flex p-flex-column p-flex-md-row">
               <div className={"evidence-selection" + (this.state.shrinkEvidenceSelection ? " evidence-selection-small" : "")}>
@@ -198,7 +169,36 @@ export default class App extends React.Component<Props, State> {
             </div>
           </React.Fragment>
         }
-        <Toast ref={(e) => this.toast = e} position="bottom-center" />
+        {/* <Toast ref={(e) => this.toast = e} position="bottom-center" /> */}
+        <Dialog header="App installieren?" visible={this.state.showCanInstall} modal style={{ width: '350px' }} footer={(
+          <div>
+            <Button label="Installieren" onClick={this.installApp} />
+            <Button label="Später Erinnern" onClick={() => this.setState({ ...this.state, showCanInstall: false })} className="p-button-text" />
+          </div>
+        )} onHide={() => this.setState({ ...this.state, showCanInstall: false })}>
+          <div className="confirmation-content">
+            <span>Für ein besseres Benutzererlebnis ist es möglich diese App zu installieren.</span>
+          </div>
+        </Dialog>
+        <Dialog header="App installiert" visible={this.state.showPwaInstalled} modal style={{ width: '350px' }} footer={(
+          <div>
+            <Button label="Schließen" onClick={() => window.close()} />
+          </div>
+        )} onHide={() => this.setState({ ...this.state, showPwaInstalled: false })}>
+          <div className="confirmation-content">
+            <span>Die App wurde installiert. Schließe nun diese Seite und öffne die App.</span>
+          </div>
+        </Dialog>
+        <Dialog header="App aktualisieren?" visible={this.state.showHasUpdate} modal style={{ width: '350px' }} footer={(
+          <div>
+            <Button label="Aktualisieren" onClick={this.reloadUpdate} />
+            <Button label="Später Erinnern" onClick={() => this.setState({ ...this.state, showHasUpdate: false })} className="p-button-text" />
+          </div>
+        )} onHide={() => this.setState({ ...this.state, showHasUpdate: false })}>
+          <div className="confirmation-content">
+            <span>Die App muss neugestartet werden zum aktualisieren.</span>
+          </div>
+        </Dialog>
       </React.Fragment>
     )
   }
