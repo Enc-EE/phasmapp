@@ -158,7 +158,7 @@ export default class App extends React.Component<Props, State> {
                 </div>
                 <EvidenceSelection evidences={DATA.evidences} selectionChanged={this.setEvidenceSelection} />
               </div>
-              <div className="scroller">
+              <div className="ghost-scroller">
                 <div className="content">
                   <div className="p-grid ghost-grid">
                     {this.getGhosts().map(x => (

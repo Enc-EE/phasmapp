@@ -35,8 +35,9 @@
     padding-top: var(--top-bar-height);
 }
 
-.scroller {
+.ghost-scroller {
     overflow: auto;
+    flex-grow: 1;
 }
 
 .title {
