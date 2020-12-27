@@ -1,8 +1,13 @@
 import React from 'react'
 import './App.css'
+import ghostly from './ghostly.png'
 import { Card } from 'primereact/card'
+import { Button } from 'primereact/button'
 import { DATA, EvidenceType } from './data'
 import EvidenceSelection from './EvidenceSelection/EvidenceSelection'
+import { faCompressAlt } from "@fortawesome/free-solid-svg-icons";
+import { faExpandAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface StateProps {
   selectedEvidences: EvidenceType[]
@@ -64,30 +69,43 @@ export default class App extends React.Component<{}, StateProps> {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         {this.state.needsHttpsRedirect
           ?
           <div>
             Redirecting to https...
           </div>
           :
-          <div>
-            <div className="p-d-flex p-jc-center top-bar"><h3>Phasmorphobia Helper</h3></div>
-            <EvidenceSelection evidences={DATA.evidences} selectionChanged={this.setEvidenceSelection} />
-            <div className="content">
-              <div className="p-grid ghost-grid">
-                {this.getGhosts().map(x => (
-                  <div className="p-col-12 p-md-6 p-xl-3">
-                    <Card className="ghost-card" key={x.name} title={x.name}>
-                      {x.evidences.map(y => DATA.evidences.find(z => z.type === y)!.name).reduce((a, b) => a + ", " + b)}
-                    </Card>
+          <React.Fragment>
+            <div className="p-d-flex p-ai-center top-bar">
+              <img className="ghostly" src={ghostly} alt="logo"></img>
+              <h3>Phasmorphobia Helper</h3>
+            </div>
+            <div className="page p-d-flex p-flex-column p-flex-md-row">
+              <div className="evidence-selection">
+                <EvidenceSelection evidences={DATA.evidences} selectionChanged={this.setEvidenceSelection} />
+                {/* <div className="p-d-block p-d-md-none evidence-layouting-small">
+                  <Button><FontAwesomeIcon icon={faCompressAlt} /></Button>
+                  <Button><FontAwesomeIcon icon={faExpandAlt} /></Button>
+                </div> */}
+              </div>
+              <div className="scroller">
+                <div className="content">
+                  <div className="p-grid ghost-grid">
+                    {this.getGhosts().map(x => (
+                      <div className="p-col-12 p-lg-6 p-xl-4" key={x.name} >
+                        <Card className="ghost-card" title={x.name}>
+                          {x.evidences.map(y => DATA.evidences.find(z => z.type === y)!.name).reduce((a, b) => a + ", " + b)}
+                        </Card>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
             </div>
-          </div>
+          </React.Fragment>
         }
-      </div>
+      </React.Fragment>
     )
   }
 }

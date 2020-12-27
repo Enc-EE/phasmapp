@@ -1,5 +1,32 @@
 .top-bar {
     background-color: var(--surface-a);
+    height: var(--top-bar-height);
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+}
+
+.evidence-selection {
+    background-color: var(--surface-d);
+    height: var(--evidences-height);
+    flex-shrink: 0;
+}
+
+.evidence-selection-small {
+    height: var(--evidences-height);
+}
+
+.ghostly {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.page {
+    padding-top: var(--top-bar-height);
+}
+
+.scroller {
+    overflow: auto;
 }
 
 .title {
@@ -10,6 +37,6 @@
     margin: 0.2em;
 }
 
-.content{
+.content {
     margin: 1em;
 }
