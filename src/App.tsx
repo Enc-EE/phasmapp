@@ -66,7 +66,10 @@ export default class App extends React.Component<Props, State> {
         console.log('User dismissed the A2HS prompt')
       }
       this.toast?.clear()
-      window.location.reload()
+      window.addEventListener("beforeunload", () => {
+        window.close()
+      })
+      window.location.href = window.location.href
       Globals.beforeinstallprompt = undefined
     });
   }
