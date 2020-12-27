@@ -17,11 +17,11 @@ import { Globals } from './globals';
 
 // setTimeout(() => {
 //   store.dispatch(setHasUpdate(true))
-// }, 3000);
+// }, 2000);
 
 // setTimeout(() => {
 //   store.dispatch(setCanInstall(true))
-// }, 3000);
+// }, 2000);
 
 ReactDOM.render(
   // <React.StrictMode>

@@ -8,6 +8,8 @@ import { DATA, EvidenceType } from './data'
 import EvidenceSelection from './EvidenceSelection/EvidenceSelection'
 import { faCompressAlt } from "@fortawesome/free-solid-svg-icons";
 import { faExpandAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faSync } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import packageJson from '../package.json';
 import { Globals } from './globals'
@@ -140,6 +142,8 @@ export default class App extends React.Component<Props, State> {
               <img className="ghostly" src={ghostly} alt="logo"></img>
               <h3>Phasmorphobia Helper</h3>
               <div className="fill"></div>
+              {this.props.canInstall && <Button className="p-button-rounded" onClick={() => this.setState({ ...this.state, showCanInstall: true })}><FontAwesomeIcon icon={faPlus} /></Button>}
+              {this.props.hasUpdate && <Button className="p-button-rounded" onClick={() => this.setState({ ...this.state, showHasUpdate: true })}><FontAwesomeIcon icon={faSync} /></Button>}
               <div>V{packageJson.version}</div>
             </div>
             <div className="page p-d-flex p-flex-column p-flex-md-row">
