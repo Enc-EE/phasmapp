@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 
@@ -14,6 +13,7 @@ import { Provider } from 'react-redux';
 import { AppConnected } from './App.connected';
 import { setCanInstall, setHasUpdate } from './state/actions';
 import { store } from './state/store';
+import { Globals } from './globals';
 
 // setTimeout(() => {
 //   store.dispatch(setHasUpdate(true))
@@ -38,10 +38,19 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
 serviceWorkerRegistration.register({
-  onUpdate: () => {
+  onUpdate: (registration) => {
+    Globals.registration = registration
     store.dispatch(setHasUpdate(true))
   }
 })
+
+window.addEventListener('beforeinstallprompt', (e: any) => {
+  // Prevent Chrome 67 and earlier from automatically showing the prompt
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  Globals.beforeinstallprompt = e;
+  store.dispatch(setCanInstall(true))
+});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
