@@ -16,7 +16,6 @@ Hosted at: [https://phasmorphobia-helper.herokuapp.com/](https://phasmorphobia-h
 ```npm run start```
 
 ## todos
-- localization german / english
 - negative selection
 - evidence icons
 - github link
