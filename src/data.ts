@@ -65,10 +65,10 @@ export const DATA: Data = {
             ]
         },
         {
-            name: "data.ghost.Gespenst.name",
-            description: "data.ghost.Gespenst.description",
-            strengths: "data.ghost.Gespenst.strenghts",
-            weaknesses: "data.ghost.Gespenst.weaknesses",
+            name: "data.ghost.Wraith.name",
+            description: "data.ghost.Wraith.description",
+            strengths: "data.ghost.Wraith.strenghts",
+            weaknesses: "data.ghost.Wraith.weaknesses",
             evidences: [
                 EvidenceType.Fingerprints,
                 EvidenceType.FreezingTemperatures,
@@ -78,7 +78,7 @@ export const DATA: Data = {
         {
             name: "data.ghost.Phantom.name",
             description: "data.ghost.Phantom.description",
-            strengths: "data.ghost.Phantom.strenghts",
+            strengths: "data.ghosEt.Phantom.strenghts",
             weaknesses: "data.ghost.Phantom.weaknesses",
             evidences: [
                 EvidenceType.EmfLevel5,
@@ -109,10 +109,10 @@ export const DATA: Data = {
             ]
         },
         {
-            name: "data.ghost.Dschinn.name",
-            description: "data.ghost.Dschinn.description",
-            strengths: "data.ghost.Dschinn.strenghts",
-            weaknesses: "data.ghost.Dschinn.weaknesses",
+            name: "data.ghost.Jinn.name",
+            description: "data.ghost.Jinn.description",
+            strengths: "data.ghost.Jinn.strenghts",
+            weaknesses: "data.ghost.Jinn.weaknesses",
             evidences: [
                 EvidenceType.SpiritBox,
                 EvidenceType.GhostOrb,
@@ -153,10 +153,10 @@ export const DATA: Data = {
             ]
         },
         {
-            name: "data.ghost.Dämon.name",
-            description: "data.ghost.Dämon.description",
-            strengths: "data.ghost.Dämon.strenghts",
-            weaknesses: "data.ghost.Dämon.weaknesses",
+            name: "data.ghost.Demon.name",
+            description: "data.ghost.Demon.description",
+            strengths: "data.ghost.Demon.strenghts",
+            weaknesses: "data.ghost.Demon.weaknesses",
             evidences: [
                 EvidenceType.SpiritBox,
                 EvidenceType.GhostWriting,
