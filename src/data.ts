@@ -78,7 +78,7 @@ export const DATA: Data = {
         {
             name: "data.ghost.Phantom.name",
             description: "data.ghost.Phantom.description",
-            strengths: "data.ghosEt.Phantom.strenghts",
+            strengths: "data.ghost.Phantom.strenghts",
             weaknesses: "data.ghost.Phantom.weaknesses",
             evidences: [
                 EvidenceType.EmfLevel5,
