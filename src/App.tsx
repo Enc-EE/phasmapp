@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl'
 import { TopBarConnected } from './TopBar/TopBar.connected'
 import GhostCard from './GhostCard/GhostCard'
+import { timingSafeEqual } from 'crypto'
 
 export interface StateProps {
 }
@@ -42,6 +43,15 @@ export default class App extends React.Component<Props, State> {
       needsHttpsRedirect: needsHttpsRedirect,
       shrinkEvidenceSelection: false,
     }
+
+    window.matchMedia("(min-width: 768px)").addEventListener("change", (e) => {
+      if (e.matches) {
+        this.setState({
+          ...this.state,
+          shrinkEvidenceSelection: false,
+        })
+      }
+    });
   }
 
   componentDidMount() {
