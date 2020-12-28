@@ -1,22 +1,16 @@
 import React from 'react'
 import './App.css'
-import ghostly from './ghostly.png'
-import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { DATA, EvidenceType } from './data'
 import EvidenceSelection from './EvidenceSelection/EvidenceSelection'
 import { faCompressAlt } from "@fortawesome/free-solid-svg-icons";
 import { faExpandAlt } from "@fortawesome/free-solid-svg-icons";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faSync } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import packageJson from '../package.json';
-import { Globals } from './globals'
+import { FormattedMessage } from 'react-intl'
+import { TopBarConnected } from './TopBar/TopBar.connected'
 import GhostCard from './GhostCard/GhostCard'
 
 export interface StateProps {
-  hasUpdate: boolean
-  canInstall: boolean
 }
 
 export interface DispatchProps {
@@ -28,8 +22,6 @@ interface State {
   selectedEvidences: EvidenceType[]
   needsHttpsRedirect: boolean
   shrinkEvidenceSelection: boolean
-  showCanInstall: boolean
-  showHasUpdate: boolean
 }
 
 export default class App extends React.Component<Props, State> {
@@ -49,48 +41,6 @@ export default class App extends React.Component<Props, State> {
       selectedEvidences: [],
       needsHttpsRedirect: needsHttpsRedirect,
       shrinkEvidenceSelection: false,
-      showCanInstall: false,
-      showHasUpdate: false,
-    }
-  }
-
-  private reloadUpdate = () => {
-    if (Globals.registration && Globals.registration.waiting) {
-      Globals.registration.waiting.postMessage({ type: 'SKIP_WAITING' })
-    }
-    window.location.reload()
-  }
-
-  private installApp = () => {
-    if (Globals.beforeinstallprompt) {
-      Globals.beforeinstallprompt.prompt()
-      Globals.beforeinstallprompt.userChoice.then((choiceResult: any) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the A2HS prompt')
-          this.setState({
-            ...this.state,
-            showCanInstall: false,
-          })
-        } else {
-          console.log('User dismissed the A2HS prompt')
-        }
-        Globals.beforeinstallprompt = undefined
-      });
-    }
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (!prevProps.hasUpdate && this.props.hasUpdate) {
-      this.setState({
-        ...this.state,
-        showHasUpdate: true,
-      })
-    }
-    if (!prevProps.canInstall && this.props.canInstall) {
-      this.setState({
-        ...this.state,
-        showCanInstall: true,
-      })
     }
   }
 
@@ -134,18 +84,11 @@ export default class App extends React.Component<Props, State> {
         {this.state.needsHttpsRedirect
           ?
           <div>
-            Redirecting to https...
+            <FormattedMessage id="app.redirectHttps" />
           </div>
           :
           <React.Fragment>
-            <div className="p-d-flex p-ai-center top-bar">
-              <img className="ghostly" src={ghostly} alt="logo"></img>
-              <h3>Phasmorphobia Helper</h3>
-              <div className="fill"></div>
-              {this.props.canInstall && <Button className="p-button-rounded" onClick={() => this.setState({ ...this.state, showCanInstall: true })}><FontAwesomeIcon icon={faPlus} /></Button>}
-              {this.props.hasUpdate && <Button className="p-button-rounded" onClick={() => this.setState({ ...this.state, showHasUpdate: true })}><FontAwesomeIcon icon={faSync} /></Button>}
-              <div>V{packageJson.version}</div>
-            </div>
+            <TopBarConnected />
             <div className="page p-d-flex p-flex-column p-flex-md-row">
               <div className={"evidence-selection" + (this.state.shrinkEvidenceSelection ? " evidence-selection-small" : "")}>
                 <div className="p-d-block p-d-md-none evidence-layouting-small">
@@ -172,27 +115,6 @@ export default class App extends React.Component<Props, State> {
             </div>
           </React.Fragment>
         }
-        {/* <Toast ref={(e) => this.toast = e} position="bottom-center" /> */}
-        <Dialog header="App installieren?" visible={this.state.showCanInstall} modal style={{ width: '350px' }} footer={(
-          <div>
-            <Button label="Installieren" onClick={this.installApp} />
-            <Button label="Später Erinnern" onClick={() => this.setState({ ...this.state, showCanInstall: false })} className="p-button-text" />
-          </div>
-        )} onHide={() => this.setState({ ...this.state, showCanInstall: false })}>
-          <div className="confirmation-content">
-            <span>Für ein besseres Benutzererlebnis ist es möglich diese App zu installieren.</span>
-          </div>
-        </Dialog>
-        <Dialog header="App aktualisieren?" visible={this.state.showHasUpdate} modal style={{ width: '350px' }} footer={(
-          <div>
-            <Button label="Aktualisieren" onClick={this.reloadUpdate} />
-            <Button label="Später Erinnern" onClick={() => this.setState({ ...this.state, showHasUpdate: false })} className="p-button-text" />
-          </div>
-        )} onHide={() => this.setState({ ...this.state, showHasUpdate: false })}>
-          <div className="confirmation-content">
-            <span>Die App muss neugestartet werden zum aktualisieren.</span>
-          </div>
-        </Dialog>
       </React.Fragment>
     )
   }

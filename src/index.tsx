@@ -14,6 +14,7 @@ import { AppConnected } from './App.connected';
 import { setCanInstall, setHasUpdate } from './state/actions';
 import { store } from './state/store';
 import { Globals } from './globals';
+import { Localization } from './Localization/Localization';
 
 // setTimeout(() => {
 //   store.dispatch(setHasUpdate(true))
@@ -25,11 +26,11 @@ import { Globals } from './globals';
 
 ReactDOM.render(
   // <React.StrictMode>
-  <React.Fragment>
-    <Provider store={store}>
+  <Provider store={store}>
+    <Localization>
       <AppConnected />
-    </Provider>
-  </React.Fragment>,
+    </Localization>
+  </Provider>,
   // </React.StrictMode>,
   document.getElementById('root')
 );

@@ -4,10 +4,7 @@ import App, { DispatchProps, StateProps } from "./App"
 import { AppState } from "./state/types"
 
 const mapStateToProps = (state: AppState): StateProps => {
-    return {
-        hasUpdate: state.hasUpdate,
-        canInstall: state.canInstall,
-    }
+    return {}
 }
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {

@@ -1,6 +1,7 @@
 
 export const SET_HAS_UPDATE = 'SET_HAS_UPDATE'
 export const SET_CAN_INSTALL = 'SET_CAN_INSTALL'
+export const SET_LANGUAGE = 'SET_LANGUAGE'
 
 interface SetHasUpdateAction {
     type: typeof SET_HAS_UPDATE
@@ -12,7 +13,12 @@ interface SetCanInstallAction {
     canInstall: boolean
 }
 
-export type AppActionTypes = SetHasUpdateAction | SetCanInstallAction
+interface SetLanguageAction {
+    type: typeof SET_LANGUAGE
+    language: string
+}
+
+export type AppActionTypes = SetHasUpdateAction | SetCanInstallAction | SetLanguageAction
 
 export function setHasUpdate(hasUpdate: boolean): AppActionTypes {
     return {
@@ -25,5 +31,12 @@ export function setCanInstall(canInstall: boolean): AppActionTypes {
     return {
         type: SET_CAN_INSTALL,
         canInstall,
+    }
+}
+
+export function setLanguage(language: string): AppActionTypes {
+    return {
+        type: SET_LANGUAGE,
+        language,
     }
 }

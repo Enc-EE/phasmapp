@@ -1,11 +1,3 @@
-.top-bar {
-    background-color: var(--surface-a);
-    height: var(--top-bar-height);
-    position: fixed;
-    width: 100%;
-    z-index: 999;
-}
-
 .evidence-selection {
     background-color: var(--surface-d);
     height: var(--evidences-height);
@@ -26,11 +18,6 @@
     flex-grow: 1;
 }
 
-.top-bar>* {
-    margin-left: 0.5em;
-    margin-right: 0.5em;
-}
-
 .page {
     padding-top: var(--top-bar-height);
 }
@@ -38,10 +25,6 @@
 .ghost-scroller {
     overflow: auto;
     flex-grow: 1;
-}
-
-.title {
-    margin: 0.5em;
 }
 
 .content {

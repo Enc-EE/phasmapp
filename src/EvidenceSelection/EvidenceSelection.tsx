@@ -2,6 +2,7 @@ import React from "react"
 import { DATA, Evidence, EvidenceType } from "../data"
 import { Checkbox } from "primereact/checkbox";
 import './EvidenceSelection.css'
+import { injectIntl, WrappedComponentProps } from "react-intl";
 
 interface StateProps {
     evidences: Evidence[]
@@ -11,13 +12,13 @@ interface DispatchProps {
     selectionChanged: (selectedEvidences: EvidenceType[]) => void
 }
 
-type Props = StateProps & DispatchProps
+type Props = StateProps & DispatchProps & WrappedComponentProps
 
 interface OwnProps {
     selection: EvidenceType[]
 }
 
-export default class EvidenceSelection extends React.Component<Props, OwnProps> {
+class EvidenceSelection extends React.Component<Props, OwnProps> {
     constructor(props: Props) {
         super(props)
 
@@ -47,32 +48,34 @@ export default class EvidenceSelection extends React.Component<Props, OwnProps> 
     }
 
     private getGhosts = () => {
-      var visibleGhostNames: string[] = []
-      for (let i = 0; i < DATA.ghosts.length; i++) {
-        visibleGhostNames.push(DATA.ghosts[i].name)
-      }
-  
-      for (const selectedEvidenceTypes of this.state.selection) {
-        for (const ghostName of [...visibleGhostNames]) {
-          if (DATA.ghosts.find(x => x.name === ghostName)!.evidences.indexOf(selectedEvidenceTypes) < 0) {
-            visibleGhostNames.splice(visibleGhostNames.indexOf(ghostName), 1)
-          }
+        var visibleGhostNames: string[] = []
+        for (let i = 0; i < DATA.ghosts.length; i++) {
+            visibleGhostNames.push(DATA.ghosts[i].name)
         }
-      }
-  
-      return DATA.ghosts.filter(x => visibleGhostNames.indexOf(x.name) >= 0);
+
+        for (const selectedEvidenceTypes of this.state.selection) {
+            for (const ghostName of [...visibleGhostNames]) {
+                if (DATA.ghosts.find(x => x.name === ghostName)!.evidences.indexOf(selectedEvidenceTypes) < 0) {
+                    visibleGhostNames.splice(visibleGhostNames.indexOf(ghostName), 1)
+                }
+            }
+        }
+
+        return DATA.ghosts.filter(x => visibleGhostNames.indexOf(x.name) >= 0);
     }
 
     render() {
         return (
             <div>
                 {this.props.evidences.map(evidence => (
-                    <div key={evidence.name} style={{margin: "0.5em"}}>
+                    <div key={evidence.type} style={{ margin: "0.5em" }}>
                         <Checkbox inputId={evidence.type.toString()} value={evidence} disabled={this.getGhosts().filter(x => x.evidences.indexOf(evidence.type) >= 0).length === 0} onChange={() => this.toggleSelect(evidence)} checked={this.isSelected(evidence.type)}></Checkbox>
-                        <label style={{marginLeft: "0.5em"}} htmlFor={evidence.type.toString()} >{evidence.name} ({this.getGhosts().filter(x => x.evidences.indexOf(evidence.type) >= 0).length})</label>
+                        <label style={{ marginLeft: "0.5em" }} htmlFor={evidence.type.toString()} >{this.props.intl.formatMessage({ id: evidence.name })} ({this.getGhosts().filter(x => x.evidences.indexOf(evidence.type) >= 0).length})</label>
                     </div>
                 ))}
             </div>
         )
     }
 }
+
+export default injectIntl(EvidenceSelection)
