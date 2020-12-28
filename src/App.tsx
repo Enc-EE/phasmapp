@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl'
 import { TopBarConnected } from './TopBar/TopBar.connected'
 import GhostCard from './GhostCard/GhostCard'
-import { timingSafeEqual } from 'crypto'
 
 export interface StateProps {
 }
@@ -21,6 +20,7 @@ type Props = StateProps & DispatchProps
 
 interface State {
   selectedEvidences: EvidenceType[]
+  negativeSelectedEvidences: EvidenceType[]
   needsHttpsRedirect: boolean
   shrinkEvidenceSelection: boolean
 }
@@ -40,6 +40,7 @@ export default class App extends React.Component<Props, State> {
 
     this.state = {
       selectedEvidences: [],
+      negativeSelectedEvidences: [],
       needsHttpsRedirect: needsHttpsRedirect,
       shrinkEvidenceSelection: false,
     }
@@ -71,6 +72,13 @@ export default class App extends React.Component<Props, State> {
     })
   }
 
+  private setNegativeEvidenceSelection = (evidences: EvidenceType[]) => {
+    this.setState({
+      ...this.state,
+      negativeSelectedEvidences: evidences,
+    })
+  }
+
   private getGhosts = () => {
     var visibleGhostNames: string[] = []
     for (let i = 0; i < DATA.ghosts.length; i++) {
@@ -83,6 +91,14 @@ export default class App extends React.Component<Props, State> {
           visibleGhostNames.splice(visibleGhostNames.indexOf(ghostName), 1)
         }
       }
+    }
+
+    for (const selectedNegativeEvidenceTypes of this.state.negativeSelectedEvidences) {
+        for (const ghostName of [...visibleGhostNames]) {
+            if (DATA.ghosts.find(x => x.name === ghostName)!.evidences.indexOf(selectedNegativeEvidenceTypes) >= 0) {
+                visibleGhostNames.splice(visibleGhostNames.indexOf(ghostName), 1)
+            }
+        }
     }
 
     return DATA.ghosts.filter(x => visibleGhostNames.indexOf(x.name) >= 0);
@@ -109,7 +125,7 @@ export default class App extends React.Component<Props, State> {
                     <Button className="p-button-text" onClick={() => this.setState({ ...this.state, shrinkEvidenceSelection: true })}><FontAwesomeIcon icon={faCompressAlt} /></Button>
                   }
                 </div>
-                <EvidenceSelection evidences={DATA.evidences} selectionChanged={this.setEvidenceSelection} />
+                <EvidenceSelection evidences={DATA.evidences} selectionChanged={this.setEvidenceSelection} negativeSelectionChanged={this.setNegativeEvidenceSelection} />
               </div>
               <div className="ghost-scroller">
                 <div className="content">

@@ -1,3 +1,7 @@
-.evidence-selection{
+.evidence-selection {
     background-color: var(--surface-d);
+}
+
+.grow {
+    flex-grow: 1;
 }
