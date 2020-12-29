@@ -16,10 +16,10 @@ import { store } from './state/store';
 import { Globals } from './globals';
 import { Localization } from './Localization/Localization';
 import { dom, library } from '@fortawesome/fontawesome-svg-core';
-import { faCog } from '@fortawesome/free-solid-svg-icons';
+import { faBan, faBolt, faBookOpen, faCog, faFingerprint, faGenderless, faPhoneVolume, faThermometerEmpty } from '@fortawesome/free-solid-svg-icons';
 
 dom.watch()
-library.add(faCog)
+library.add(faCog, faBan, faBolt, faFingerprint, faThermometerEmpty, faGenderless, faBookOpen, faPhoneVolume)
 
 // setTimeout(() => {
 //   store.dispatch(setHasUpdate(true))

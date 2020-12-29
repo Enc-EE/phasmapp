@@ -6,6 +6,7 @@ import { Button } from "primereact/button"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCompressAlt, faExpandAlt } from "@fortawesome/free-solid-svg-icons"
 import { FormattedMessage, injectIntl, WrappedComponentProps } from "react-intl"
+import EvidenceView from "../EvidenceView/EvidenceView"
 
 interface StateProps {
     ghost: Ghost
@@ -32,7 +33,8 @@ class GhostCard extends React.Component<Props, State> {
         return (
             <Card className="ghost-card" title={(
                 <div>
-                    <FormattedMessage id={this.props.ghost.name} />
+                    <span className="p-mr-2"><FormattedMessage id={this.props.ghost.name} /></span>
+                    {this.props.ghost.evidences.map(x => <EvidenceView evidence={DATA.evidences.find(y => y.type === x)!} small />)}
                     {this.state.isExpanded
                         ?
                         <Button className="p-button-text collapse-expand" onClick={() => this.setState({ ...this.state, isExpanded: false })}><FontAwesomeIcon icon={faCompressAlt} /></Button>
@@ -42,7 +44,7 @@ class GhostCard extends React.Component<Props, State> {
                 </div>)}>
 
                 {this.state.isExpanded
-                    ?
+                    &&
                     <div>
                         <p className="p-m-0">
                             <FormattedMessage id={this.props.ghost.description} />
@@ -56,11 +58,11 @@ class GhostCard extends React.Component<Props, State> {
                             <FormattedMessage id={this.props.ghost.weaknesses} />
                         </p>
                         <h3><FormattedMessage id="data.ghost.common.evidences" /></h3>
-                        <p className="p-m-0">{this.props.ghost.evidences.map(y => DATA.evidences.find(z => z.type === y)!.name).map(x => this.props.intl.formatMessage({ id: x })).reduce((a, b) => a + ", " + b)}</p>
-                    </div>
-                    :
-                    this.props.ghost.evidences.map(y => DATA.evidences.find(z => z.type === y)!.name).map(x => this.props.intl.formatMessage({ id: x })).reduce((a, b) => a + ", " + b)
-                }
+                        <p className="p-m-0">
+                            {this.props.ghost.evidences.map(y => DATA.evidences.find(z => z.type === y)!).map(x => <div>
+                                <EvidenceView evidence={x} />
+                            </div>)}</p>
+                    </div>}
             </Card>
         )
     }
