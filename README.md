@@ -14,6 +14,3 @@ Hosted at: [https://phasmorphobia-helper.herokuapp.com/](https://phasmorphobia-h
 3. start the app
 
 ```npm run start```
-
-## todos
-- evidence icons
