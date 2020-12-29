@@ -15,10 +15,6 @@
     right: 0;
 }
 
-.fill {
-    flex-grow: 1;
-}
-
 .page {
     padding-top: var(--top-bar-height);
 }

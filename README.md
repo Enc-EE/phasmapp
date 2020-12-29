@@ -17,4 +17,3 @@ Hosted at: [https://phasmorphobia-helper.herokuapp.com/](https://phasmorphobia-h
 
 ## todos
 - evidence icons
-- github link

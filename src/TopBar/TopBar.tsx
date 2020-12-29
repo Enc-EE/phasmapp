@@ -1,11 +1,7 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button } from "primereact/button"
 import React from "react"
 import { FormattedMessage, WrappedComponentProps } from "react-intl"
 import ghostly from '../ghostly.png'
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faSync } from "@fortawesome/free-solid-svg-icons";
-import packageJson from '../../package.json';
 import { Dialog } from "primereact/dialog"
 import { Globals } from "../globals"
 import './TopBar.css'
@@ -13,42 +9,29 @@ import './TopBar.css'
 export interface StateProps {
     canInstall: boolean
     hasUpdate: boolean
-    language: string
+    showSettings: boolean
+    isShowCanInstall: boolean
+    isShowHasUpdate: boolean
 }
 
 export interface DispatchProps {
-    setLanguage: (language: string) => void
+    showHideSettings: (showSettings: boolean) => void
+    showCanInstall: (showCanInstall: boolean) => void
+    showHasUpdate: (showHasUpdate: boolean) => void
 }
 
 type Props = StateProps & DispatchProps & WrappedComponentProps
 
 interface State {
-    showCanInstall: boolean
-    showHasUpdate: boolean
 }
 
 export default class TopBar extends React.Component<Props, State> {
-    constructor(props: Props) {
-        super(props)
-
-        this.state = {
-            showCanInstall: false,
-            showHasUpdate: false,
-        }
-    }
-
     componentDidUpdate(prevProps: Props) {
         if (!prevProps.hasUpdate && this.props.hasUpdate) {
-            this.setState({
-                ...this.state,
-                showHasUpdate: true,
-            })
+            this.props.showHasUpdate(true)
         }
         if (!prevProps.canInstall && this.props.canInstall) {
-            this.setState({
-                ...this.state,
-                showCanInstall: true,
-            })
+            this.props.showCanInstall(true)
         }
     }
 
@@ -77,10 +60,6 @@ export default class TopBar extends React.Component<Props, State> {
         }
     }
 
-    private setLanguage = (language: string) => {
-        this.props.setLanguage(language)
-    }
-
     render() {
         return (
             <React.Fragment>
@@ -88,32 +67,30 @@ export default class TopBar extends React.Component<Props, State> {
                     <img className="ghostly" src={ghostly} alt="logo"></img>
                     <h3><FormattedMessage id="app.title" /></h3>
                     <div className="fill"></div>
-                    {this.props.language === "de"
-                        ?
-                        <Button onClick={() => this.setLanguage("en")} label="en" />
-                        :
-                        <Button onClick={() => this.setLanguage("de")} label="de" />
-                    }
-                    {this.props.canInstall && <Button className="p-button-rounded" onClick={() => this.setState({ ...this.state, showCanInstall: true })}><FontAwesomeIcon icon={faPlus} /></Button>}
-                    {this.props.hasUpdate && <Button className="p-button-rounded" onClick={() => this.setState({ ...this.state, showHasUpdate: true })}><FontAwesomeIcon icon={faSync} /></Button>}
-                    <div>V{packageJson.version}</div>
+                    <span className="p-overlay-badge">
+                        <Button
+                            icon="fa fa-cog"
+                            className={(this.props.canInstall || this.props.hasUpdate || this.props.showSettings ? "" : "p-button-text")}
+                            onClick={() => this.props.showHideSettings(!this.props.showSettings)} />
+                        {(this.props.canInstall || this.props.hasUpdate) && <span className="p-badge p-badge-warning">!</span>}
+                    </span>
                 </div>
-                <Dialog header={this.props.intl.formatMessage({ id: "app.installAppHeader" })} visible={this.state.showCanInstall} modal style={{ width: '350px' }} footer={(
+                <Dialog header={this.props.intl.formatMessage({ id: "app.installAppHeader" })} visible={this.props.isShowCanInstall} modal style={{ width: '350px' }} footer={(
                     <div>
                         <Button label={this.props.intl.formatMessage({ id: "app.installAppAction" })} onClick={this.installApp} />
-                        <Button label={this.props.intl.formatMessage({ id: "app.remindLaterAction" })} onClick={() => this.setState({ ...this.state, showCanInstall: false })} className="p-button-text" />
+                        <Button label={this.props.intl.formatMessage({ id: "app.remindLaterAction" })} onClick={() => this.props.showCanInstall(false)} className="p-button-text" />
                     </div>
-                )} onHide={() => this.setState({ ...this.state, showCanInstall: false })}>
+                )} onHide={() => this.props.showCanInstall(false)}>
                     <div className="confirmation-content">
                         <span><FormattedMessage id="app.installAppDescription" /></span>
                     </div>
                 </Dialog>
-                <Dialog header={this.props.intl.formatMessage({ id: "app.updateAppHeader" })} visible={this.state.showHasUpdate} modal style={{ width: '350px' }} footer={(
+                <Dialog header={this.props.intl.formatMessage({ id: "app.updateAppHeader" })} visible={this.props.isShowHasUpdate} modal style={{ width: '350px' }} footer={(
                     <div>
                         <Button label={this.props.intl.formatMessage({ id: "app.updateAppAction" })} onClick={this.reloadUpdate} />
-                        <Button label={this.props.intl.formatMessage({ id: "app.remindLaterAction" })} onClick={() => this.setState({ ...this.state, showHasUpdate: false })} className="p-button-text" />
+                        <Button label={this.props.intl.formatMessage({ id: "app.remindLaterAction" })} onClick={() => this.props.showHasUpdate(false)} className="p-button-text" />
                     </div>
-                )} onHide={() => this.setState({ ...this.state, showHasUpdate: false })}>
+                )} onHide={() => this.props.showHasUpdate(false)}>
                     <div className="confirmation-content">
                         <span><FormattedMessage id="app.updateAppDescription" /></span>
                     </div>

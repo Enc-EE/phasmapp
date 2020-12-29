@@ -15,6 +15,11 @@ import { setCanInstall, setHasUpdate } from './state/actions';
 import { store } from './state/store';
 import { Globals } from './globals';
 import { Localization } from './Localization/Localization';
+import { dom, library } from '@fortawesome/fontawesome-svg-core';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
+
+dom.watch()
+library.add(faCog)
 
 // setTimeout(() => {
 //   store.dispatch(setHasUpdate(true))

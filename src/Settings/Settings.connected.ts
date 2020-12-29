@@ -1,24 +1,21 @@
 import { Dispatch } from "@reduxjs/toolkit"
-import { injectIntl } from "react-intl"
 import { connect } from "react-redux"
-import { showCanInstall, showHasUpdate, showHideSettings } from "../state/actions"
+import { setLanguage, showCanInstall, showHasUpdate } from "../state/actions"
 import { AppState } from "../state/types"
-import TopBar, { DispatchProps, StateProps } from "./TopBar"
+import Settings, { DispatchProps, StateProps } from "./Settings"
 
 const mapStateToProps = (state: AppState): StateProps => {
     return {
         hasUpdate: state.hasUpdate,
         canInstall: state.canInstall,
-        showSettings: state.showSettings,
-        isShowCanInstall: state.showCanInstall,
-        isShowHasUpdate: state.showHasUpdate,
+        language: state.language,
     }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
     return {
-        showHideSettings: (showSettings) => {
-            dispatch(showHideSettings(showSettings))
+        setLanguage: (language) => {
+            dispatch(setLanguage(language))
         },
         showCanInstall: (isShowCanInstall) => {
             dispatch(showCanInstall(isShowCanInstall))
@@ -29,4 +26,4 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
     }
 }
 
-export const TopBarConnected = connect(mapStateToProps, mapDispatchToProps)(injectIntl(TopBar));
+export const SettingsConnected = connect(mapStateToProps, mapDispatchToProps)(Settings);

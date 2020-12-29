@@ -4,7 +4,9 @@ import App, { DispatchProps, StateProps } from "./App"
 import { AppState } from "./state/types"
 
 const mapStateToProps = (state: AppState): StateProps => {
-    return {}
+    return {
+        showSettings: state.showSettings
+    }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {

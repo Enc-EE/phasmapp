@@ -118,7 +118,7 @@ class EvidenceSelection extends React.Component<Props, OwnProps> {
                             <Checkbox
                                 inputId={evidence.type.toString()}
                                 value={evidence}
-                                disabled={!isNegativeFilter && filteredGhosts.length === 0}
+                                disabled={!isEvidenceSelected && !isNegativeFilter && filteredGhosts.length === 0}
                                 onChange={() => this.toggleSelect(evidence)}
                                 checked={isEvidenceSelected}></Checkbox>
                             <label
