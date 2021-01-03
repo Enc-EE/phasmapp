@@ -118,7 +118,7 @@ class GhostFilter extends React.Component<Props, OwnProps> {
             positiveFilter: [],
         })
 
-        this.props.filteredGhostsChanged(this.getGhosts(this.state.positiveFilter, this.state.negativeFilter).map(x => DATA.ghosts.indexOf(x)))
+        this.props.filteredGhostsChanged(this.getGhosts([], []).map(x => DATA.ghosts.indexOf(x)))
     }
 
     render() {
