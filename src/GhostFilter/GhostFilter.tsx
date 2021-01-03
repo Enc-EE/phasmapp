@@ -43,7 +43,7 @@ class GhostFilter extends React.Component<Props, OwnProps> {
     }
 
     componentDidMount() {
-        this.props.filteredGhostsChanged(this.getGhosts().map(x => DATA.ghosts.indexOf(x)))
+        this.props.filteredGhostsChanged(this.getGhosts(this.state.positiveFilter, this.state.negativeFilter).map(x => DATA.ghosts.indexOf(x)))
     }
 
     private togglePositiveFilter = (evidence: Evidence) => {
@@ -66,7 +66,7 @@ class GhostFilter extends React.Component<Props, OwnProps> {
             positiveFilter: newSelection,
             negativeFilter: newNegativeSelection,
         })
-        this.props.filteredGhostsChanged(this.getGhosts().map(x => DATA.ghosts.indexOf(x)))
+        this.props.filteredGhostsChanged(this.getGhosts(newSelection, newNegativeSelection).map(x => DATA.ghosts.indexOf(x)))
     }
 
     private toggleNegativeFilter = (evidence: Evidence) => {
@@ -83,16 +83,16 @@ class GhostFilter extends React.Component<Props, OwnProps> {
             negativeFilter: newSelection,
         })
 
-        this.props.filteredGhostsChanged(this.getGhosts().map(x => DATA.ghosts.indexOf(x)))
+        this.props.filteredGhostsChanged(this.getGhosts(this.state.positiveFilter, newSelection).map(x => DATA.ghosts.indexOf(x)))
     }
 
-    private getGhosts = () => {
+    private getGhosts = (positiveFilter: EvidenceType[], negativeFilter: EvidenceType[]) => {
         var visibleGhostNames: string[] = []
         for (let i = 0; i < DATA.ghosts.length; i++) {
             visibleGhostNames.push(DATA.ghosts[i].name)
         }
 
-        for (const selectedEvidenceTypes of this.state.positiveFilter) {
+        for (const selectedEvidenceTypes of positiveFilter) {
             for (const ghostName of [...visibleGhostNames]) {
                 if (DATA.ghosts.find(x => x.name === ghostName)!.evidences.indexOf(selectedEvidenceTypes) < 0) {
                     visibleGhostNames.splice(visibleGhostNames.indexOf(ghostName), 1)
@@ -100,7 +100,7 @@ class GhostFilter extends React.Component<Props, OwnProps> {
             }
         }
 
-        for (const selectedNegativeEvidenceTypes of this.state.negativeFilter) {
+        for (const selectedNegativeEvidenceTypes of negativeFilter) {
             for (const ghostName of [...visibleGhostNames]) {
                 if (DATA.ghosts.find(x => x.name === ghostName)!.evidences.indexOf(selectedNegativeEvidenceTypes) >= 0) {
                     visibleGhostNames.splice(visibleGhostNames.indexOf(ghostName), 1)
@@ -117,10 +117,12 @@ class GhostFilter extends React.Component<Props, OwnProps> {
             negativeFilter: [],
             positiveFilter: [],
         })
+
+        this.props.filteredGhostsChanged(this.getGhosts(this.state.positiveFilter, this.state.negativeFilter).map(x => DATA.ghosts.indexOf(x)))
     }
 
     render() {
-        const filteredGhosts = this.getGhosts()
+        const filteredGhosts = this.getGhosts(this.state.positiveFilter, this.state.negativeFilter)
         return (
             <div className={"evidence-selection"}>
                 <div className={(this.state.shrinkEvidenceSelection ? "evidence-selection-small" : "")}>
