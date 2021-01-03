@@ -1,11 +1,7 @@
 import React from 'react'
 import './App.css'
-import { Button } from 'primereact/button'
 import { DATA } from './data'
 import GhostFilter from './GhostFilter/GhostFilter'
-import { faCompressAlt } from "@fortawesome/free-solid-svg-icons";
-import { faExpandAlt } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FormattedMessage } from 'react-intl'
 import { TopBarConnected } from './TopBar/TopBar.connected'
 import GhostCard from './GhostCard/GhostCard'
@@ -23,7 +19,6 @@ type Props = StateProps & DispatchProps
 interface State {
   filteredGhostIndices: number[]
   needsHttpsRedirect: boolean
-  shrinkEvidenceSelection: boolean
 }
 
 export default class App extends React.Component<Props, State> {
@@ -42,17 +37,7 @@ export default class App extends React.Component<Props, State> {
     this.state = {
       filteredGhostIndices: [],
       needsHttpsRedirect: needsHttpsRedirect,
-      shrinkEvidenceSelection: false,
     }
-
-    window.matchMedia("(min-width: 768px)").addEventListener("change", (e) => {
-      if (e.matches) {
-        this.setState({
-          ...this.state,
-          shrinkEvidenceSelection: false,
-        })
-      }
-    });
   }
 
   componentDidMount() {
@@ -92,17 +77,8 @@ export default class App extends React.Component<Props, State> {
               </div>
               :
               <div className="page p-d-flex p-flex-column p-flex-md-row">
-                <div className={"evidence-selection" + (this.state.shrinkEvidenceSelection ? " evidence-selection-small" : "")}>
-                  <div className="p-d-block p-d-md-none evidence-layouting-small">
-                    {this.state.shrinkEvidenceSelection
-                      ?
-                      <Button className="p-button-text" onClick={() => this.setState({ ...this.state, shrinkEvidenceSelection: false })}><FontAwesomeIcon icon={faExpandAlt} /></Button>
-                      :
-                      <Button className="p-button-text" onClick={() => this.setState({ ...this.state, shrinkEvidenceSelection: true })}><FontAwesomeIcon icon={faCompressAlt} /></Button>
-                    }
-                  </div>
-                  <GhostFilter filteredGhostsChanged={this.setGhosts} />
-                </div>
+                {/* <div className={"evidence-selection" + (this.state.shrinkEvidenceSelection ? " evidence-selection-small" : "")}> */}
+                <GhostFilter filteredGhostsChanged={this.setGhosts} />
                 <div className="ghost-scroller">
                   <div className="content">
                     <div className="p-grid ghost-grid">

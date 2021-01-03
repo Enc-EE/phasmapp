@@ -58,12 +58,12 @@ class GhostCard extends React.Component<Props, State> {
                             <FormattedMessage id={this.props.ghost.weaknesses} />
                         </p>
                         <h3><FormattedMessage id="data.ghost.common.evidences" /></h3>
-                        <p className="p-m-0">
+                        <div className="p-m-0">
                             {this.props.ghost.evidences.map(y => DATA.evidences.find(z => z.type === y)!).map(x => (
                                 <div key={x.type}>
                                     <EvidenceView evidence={x} />
                                 </div>
-                            ))}</p>
+                            ))}</div>
                     </div>
                     :
                     <p className="p-m-0">

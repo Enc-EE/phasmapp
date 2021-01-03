@@ -1,5 +1,22 @@
 .evidence-selection {
-    background-color: var(--surface-d);
+    background-color: var(--surface-c);
+    height: var(--evidences-height);
+    flex-shrink: 0;
+    padding: 0em 0.4em;
+}
+
+.evidence-selection-small {
+    height: var(--evidences-height-small);
+    overflow: auto;
+}
+
+.right {
+    float: right;
+}
+
+.evidence-layouting-small {
+    position: fixed;
+    right: 0;
 }
 
 .grow {

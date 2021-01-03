@@ -11,6 +11,7 @@
     "common.language": "Sprache",
     "common.version": "Version",
     "common.sourceCode": "Quellcode",
+    "common.newGame": "Neues Spiel",
     "data.evidence.EmfLevel5.name": "EMF Level 5",
     "data.evidence.Fingerprints.name": "Fingerabdrücke",
     "data.evidence.FreezingTemperatures.name": "Gefriertemperatur",
