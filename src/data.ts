@@ -185,5 +185,27 @@ export const DATA: Data = {
                 EvidenceType.GhostWriting,
             ]
         },
+        {
+            name: "data.ghost.Hantu.name",
+            description: "data.ghost.Hantu.description",
+            strengths: "data.ghost.Hantu.strenghts",
+            weaknesses: "data.ghost.Hantu.weaknesses",
+            evidences: [
+                EvidenceType.Fingerprints,
+                EvidenceType.GhostOrb,
+                EvidenceType.GhostWriting,
+            ]
+        },
+        {
+            name: "data.ghost.Yokai.name",
+            description: "data.ghost.Yokai.description",
+            strengths: "data.ghost.Yokai.strenghts",
+            weaknesses: "data.ghost.Yokai.weaknesses",
+            evidences: [
+                EvidenceType.SpiritBox,
+                EvidenceType.GhostOrb,
+                EvidenceType.GhostWriting,
+            ]
+        },
     ]
 }

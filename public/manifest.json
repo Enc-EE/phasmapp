@@ -1,7 +1,7 @@
 {
-  "short_name": "Phasmorphelper",
-  "name": "Phasmorphobia Helper",
-  "description": "Phasmorphobia Helper App",
+  "short_name": "Phasmophelper",
+  "name": "Phasmophobia Helper",
+  "description": "Phasmophobia Helper App",
   "icons": [
     {
       "src": "favicon.ico",

@@ -1,6 +1,6 @@
 {
     "app.redirectHttps": "Weiterleitung zu https...",
-    "app.title": "Phasmorphobia Helper",
+    "app.title": "Phasmophobia Helper",
     "app.installAppHeader": "App installieren?",
     "app.installAppDescription": "Sie können diese App installieren, um die Bedienung zu erleichtern.",
     "app.installAppAction": "Installieren",
@@ -69,5 +69,13 @@
     "data.ghost.Oni.description": "Oni's sind verwandte des Dämons und besitzen unglaubliche Stärke. Gerüchten zufolge sind sie aktiver in der Nähe ihres Opfers.",
     "data.ghost.Oni.strenghts": "Oni's bewegen Objekte mit großer Geschwindigkeit und sind aktiver wenn Leute in der Nähe sind.",
     "data.ghost.Oni.weaknesses": "Durch ihre hohe Aktivitätsrate sind Oni's leichter zu erkennen.",
+    "data.ghost.Hantu.name": "Hantu",
+    "data.ghost.Hantu.description": "Ein Hantu ist ein seltener Geist, der in heißen Klimazonen zu finden ist. Sie sind dafür bekannt, dass sie bei kaltem Wetter häufig angreifen.",
+    "data.ghost.Hantu.strenghts": "Bei niedrigeren Temperaturen können sich die Hantu schneller bewegen.",
+    "data.ghost.Hantu.weaknesses": "Ein Hantu bewegt sich in wärmeren Bereichen langsamer.",
+    "data.ghost.Yokai.name": "Yokai",
+    "data.ghost.Yokai.description": "Ein Yokai ist ein gängiger Geist, der von menschlichen Stimmen angezogen wird. Sie spuken normalerweise in Familienhäusern.",
+    "data.ghost.Yokai.strenghts": "Das Sprechen in der Nähe eines Yokai verärgert ihn und erhöht die Wahrscheinlichkeit, dass er angreift.",
+    "data.ghost.Yokai.weaknesses": "Bei der Jagd kann ein Yokai nur Stimmen in seiner Nähe hören.",
     "end": "."
 }
